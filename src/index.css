@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111;
+  --accent-color: #007bff;
+  --card-bg-color: #f8f9fa;
+  --border-color: #e0e0e0;
+  --input-color: #3b3b3b;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1f2937;
+  --text-color: #ffffff;
+  --accent-color: #1e90ff;
+  --card-bg-color: #1e1e1e;
+  --border-color: #e0e0e0e0;
+  --input-color: #e0e0e0e0;
+}
+
+* {
+  font-family: "Urbanist", sans-serif !important;
+}
+
+.container {
+  font-family: "Urbanist", sans-serif !important;
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 30px 60px;
+  background-color: var(--bg-color);
+}
+
+.complete {
+  text-decoration: line-through;
+  font-size: 22px !important;
+  color: rgb(141, 150, 158) !important;
+}
+
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 20px 30px;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    padding: 20px 10px;
+  }
+
+  .form-container {
+    flex-direction: column;
+    align-items: center;
+
+
+    & input {
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      -ms-border-radius: 0px;
+      -o-border-radius: 0px;
+    }
+
+    & input[type="submit"] {
+      align-self: flex-end;
+      padding: 10px 25px;
+      width: 100%;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      -ms-border-radius: 0px;
+      -o-border-radius: 0px;
+    }
+  }
+}
