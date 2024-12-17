@@ -1,71 +1,64 @@
-import { useState } from "react";
 import Header from "./components/Header";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const [data, setData] = useState<
-    { value: string; id: string; complete: boolean }[]
-  >(JSON.parse(localStorage.getItem("todoList") ?? "[]"));
+    { content: string; id: string; complete: boolean }[]
+  >(JSON.parse(localStorage.getItem("react-todo") ?? "[]"));
   const [editValue, setEditValue] = useState<string>();
   const [editId, setEditId] = useState<string>();
 
-  // ! Local Storage
-  // // ? Local Storage Set
+  //! Local Storage.
+  useEffect(() => {
+    localStorage.setItem("react-todo", JSON.stringify(data));
+  }, [data]);
 
-  // // ? Local Storage Get
-  // useEffect(() => {
-  //   const localData = localStorage.getItem("react-todo");
-  //   if (localData) {
-  //     setData(JSON.parse(localData));
-  //   }
-  // }, []);
-
-  //? Set Data
-  function Data(value: string) {
-    setData([...data, { value, id: Date.now().toString(), complete: false }]);
+  // ? Getting Data from Input
+  function getData(value: string) {
+    setData([
+      ...data,
+      { content: value, id: Date.now().toString(), complete: false },
+    ]);
   }
 
   //? Delete Handler
-  function delHandler(id: string) {
-    setData(
-      data.filter((item) => {
-        return item.id !== id;
-      })
-    );
-  }
+  const delHandler = (id: string) => {
+    setData(data.filter((data) => data.id !== id));
+  };
 
-  // ? Edit Handler
-  function editHandler(value: string, id: string) {
+  //? Edit handler
+  const editHandler = (value: string, id: string) => {
     setEditValue(value);
     setEditId(id);
-  }
+  };
 
-  // ? Completed Handler
-  function completedData(value: string, id: string, complete: boolean) {
-    setData(
-      data.map((item) => {
-        if (item.id === id) {
-          return { ...item, value, complete: !complete };
-        }
-        return item;
-      })
-    );
-  }
-
-  // ? Edit Value Handler
-  function editValueHandler(value: string) {
+  //? Edit Value
+  const editedValue = (value: string) => {
     setData(
       data.map((item) => {
         if (item.id === editId) {
-          return { ...item, value, id: Date.now().toString() };
+          return { content: value, id: editId, complete: false };
         }
         return item;
       })
     );
-    setEditValue(undefined);
     setEditId(undefined);
-  }
+    setEditValue(undefined);
+  };
+
+  //? Complete Handler
+  const completeHandler = (id: string) => {
+    setData(
+      data.map((item) => {
+        if (item.id == id) {
+          return { ...item, complete: !item.complete };
+        }
+        return item;
+      })
+    );
+  };
 
   return (
     <div
@@ -77,15 +70,15 @@ const App = () => {
     >
       <Header />
       <TodoInput
-        getData={Data}
+        sendInput={getData}
         editValue={editValue ?? ""}
-        editData={editValueHandler}
+        sendEditValue={editedValue}
       />
       <TodoList
         data={data}
         delHandler={delHandler}
         editHandler={editHandler}
-        completedData={completedData}
+        completeHandler={completeHandler}
       />
     </div>
   );

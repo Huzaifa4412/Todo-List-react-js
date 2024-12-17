@@ -1,32 +1,31 @@
 import { useEffect, useState } from "react";
 
 export default function TodoInput({
-  getData,
+  sendInput,
   editValue,
-  editData,
+  sendEditValue,
 }: {
-  getData: (value: string) => void;
-  editValue: string | null;
-  editData: (value: string) => void;
+  sendInput: (value: string) => void;
+  editValue: string;
+  sendEditValue: (value: string) => void;
 }) {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>();
 
   function HandleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (input) {
       input.trim();
       if (editValue) {
-        editData(input);
+        sendEditValue(input ?? "");
       } else {
-        getData(input);
+        sendInput(input ?? "");
       }
     }
-    editValue = null;
     setInput("");
   }
 
   useEffect(() => {
-    setInput(editValue ?? "");
+    setInput(editValue);
   }, [editValue]);
 
   return (
@@ -38,7 +37,9 @@ export default function TodoInput({
             type="text"
             autoFocus
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
             className="lg:ml-[10%] rounded-md rounded-r-none text-xl outline-none px-5 py-3 w-[100%] max-w-[700px]"
             style={{
               backgroundColor: "var(--input-color)",

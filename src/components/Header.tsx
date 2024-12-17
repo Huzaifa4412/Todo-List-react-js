@@ -19,6 +19,7 @@ export default function Header() {
       {isDark == "light" ? (
         <Moon
           size={30}
+          className="cursor-pointer"
           onClick={() => {
             setIsDark("dark");
             document.documentElement.setAttribute("data-theme", "dark");
@@ -30,6 +31,7 @@ export default function Header() {
       ) : (
         <Sun
           size={30}
+          className="cursor-pointer"
           onClick={() => {
             setIsDark("light");
             document.documentElement.removeAttribute("data-theme");
